@@ -1,0 +1,26 @@
+{
+  "name": "anon-chat-sim",
+  "version": "0.0.1",
+  "description": "simple anonymous chat app with email verification",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chee-zer/anon-chat-sim.git"
+  },
+  "author": "chee-zer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chee-zer/anon-chat-sim/issues"
+  },
+  "homepage": "https://github.com/chee-zer/anon-chat-sim#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.5",
+    "nodemailer": "^6.9.14",
+    "socket.io": "^4.7.5"
+  }
+}
