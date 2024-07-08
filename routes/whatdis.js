@@ -18,12 +18,12 @@ const transporter = nodemailer.createTransport({
 router.post("/verify", async (req, res) => {
   const { email } = req.body;
   const verficationToken = crypto.randomBytes(32).toString("hex");
+  console.log(`here`);
   const user = new User({
     email: email, //according to es6, you can just write email and it'll work cuz the key and value are same ref to object destructuring retard
-    verficationToken: verficationToken,
+    verificationToken: verficationToken,
     isVerified: false,
   });
-
   await user.save();
 
   //mail config, from, to, contents, attachements yada yada ref to nodemailer site
@@ -37,7 +37,7 @@ router.post("/verify", async (req, res) => {
   //does the uh transporting :)
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      res.status(500).send(error.toString);
+      res.status(500).send(error.toString());
     } else {
       res.status(200).send("Verification Email Sent");
     }

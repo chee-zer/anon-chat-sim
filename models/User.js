@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema({
     lowercase: true,
     trim: true,
     validate: {
-      validator: (v) => /^b\d{5}@iiit-bh.ac.in/gi.test(v),
+      validator: (v) => /^b\d{6}@iiit-bh.ac.in/gi.test(v),
     },
     message: "{VALUE} is not a valid college id.",
   },
@@ -18,7 +18,7 @@ const UserSchema = mongoose.Schema({
   },
   verificationToken: {
     type: String,
-    required: "true",
+    required: true,
   },
   isOnline: {
     type: Boolean,
