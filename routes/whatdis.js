@@ -1,7 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const User = require("./models/User"); //the model has to start with a capital letter(?) FORGORFORGOR REPLACE ASAP
+const User = require("../models/User"); //the model has to start with a capital letter(?) FORGORFORGOR REPLACE ASAP
 
 const router = express.Router();
 
