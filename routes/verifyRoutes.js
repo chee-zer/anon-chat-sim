@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const User = require("../models/User"); //the model has to start with a capital letter(?) FORGORFORGOR REPLACE ASAP
 
-const router = express.Router();
+const verifyRouter = express.Router();
 
 //dunno what this does but its there in the sample code of nodemailer
 const transporter = nodemailer.createTransport({
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 //verify route, users will post their email id here
-router.post("/verify", async (req, res) => {
+verifyRouter.post("/", async (req, res) => {
   const { email } = req.body;
   const verficationToken = crypto.randomBytes(32).toString("hex");
   console.log(`here`);
@@ -44,7 +44,7 @@ router.post("/verify", async (req, res) => {
   });
 });
 
-router.get("/verify/:token", async (req, res) => {
+verifyRouter.get("/:token", async (req, res) => {
   const user = await User.findOne({ verificationToken: req.params.token });
   if (!user) {
     res.status(404).send("Invalid Token");
@@ -58,4 +58,4 @@ router.get("/verify/:token", async (req, res) => {
   res.status(200).send("Email verified successfully");
 });
 
-module.exports = router;
+module.exports = verifyRouter;

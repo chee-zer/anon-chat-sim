@@ -4,7 +4,9 @@
   "description": "simple anonymous chat app with email verification",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch server.js",
+    "start:prod": "cross-env NODE_ENV=production node --watch server.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +25,8 @@
     "mongoose": "^8.4.5",
     "nodemailer": "^6.9.14",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
