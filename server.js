@@ -18,5 +18,5 @@ mongoose.connect(`${process.env.MONGODB_URI}`).then((con) => {
 //start server
 const server = app.listen(3000, () => {
   console.log(`SERVER RUNNING ON PORT ${3000}`);
-  console.log(`RUNNING IN ${NODE_ENV} mode`);
+  console.log(`RUNNING IN ${process.env.NODE_ENV} mode`);
 });
