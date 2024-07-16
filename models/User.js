@@ -25,6 +25,15 @@ const UserSchema = mongoose.Schema({
     required: true,
     default: false,
   },
+  username: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  avatar: {
+    type: String,
+    default: "default_avatar.png",
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
