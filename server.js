@@ -20,3 +20,11 @@ const server = app.listen(3000, () => {
   console.log(`SERVER RUNNING ON PORT ${3000}`);
   console.log(`RUNNING IN ${process.env.NODE_ENV} mode`);
 });
+
+process.on("unhandledRejection", (err) => {
+  console.log(`\u001b[31mUNHANDLED REJECTION, SHUTTING DOWN APP...\u001b[0m`);
+  console.log(`${err.name}: ${err.message}`);
+  server.close(() => {
+    process.exit(1);
+  });
+});

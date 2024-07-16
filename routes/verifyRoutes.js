@@ -14,48 +14,60 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//verify route, users will post their email id here
-verifyRouter.post("/", async (req, res) => {
-  const { email } = req.body;
-  const verficationToken = crypto.randomBytes(32).toString("hex");
-  console.log(`here`);
-  const user = new User({
-    email: email, //according to es6, you can just write email and it'll work cuz the key and value are same ref to object destructuring retard
-    verificationToken: verficationToken,
-    isVerified: false,
-  });
-  await user.save();
-
-  //mail config, from, to, contents, attachements yada yada ref to nodemailer site
-  const mailOptions = {
-    from: process.env.USER,
-    to: email,
-    subject: "Email verification for Anon Chat",
-    text: `Click on this link to verify your id: http://localhost:${process.env.PORT}/verify/${verficationToken}`,
+const catchAsync = (fn) => {
+  return (req, res, next) => {
+    fn(res, req, next).catch(next);
   };
+};
 
-  //does the uh transporting :)
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      res.status(500).send(error.toString());
-    } else {
-      res.status(200).send("Verification Email Sent");
+//verify route, users will post their email id here
+verifyRouter.post(
+  "/",
+  catchAsync(async (req, res) => {
+    const { email } = req.body;
+    const verficationToken = crypto.randomBytes(32).toString("hex");
+    console.log(`here`);
+    const user = new User({
+      email: email, //according to es6, you can just write email and it'll work cuz the key and value are same ref to object destructuring retard
+      verificationToken: verficationToken,
+      isVerified: false,
+    });
+    await user.save();
+
+    //mail config, from, to, contents, attachements yada yada ref to nodemailer site
+    const mailOptions = {
+      from: process.env.USER,
+      to: email,
+      subject: "Email verification for Anon Chat",
+      text: `Click on this link to verify your id: http://localhost:${process.env.PORT}/verify/${verficationToken}`,
+    };
+
+    //does the uh transporting :)
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        res.status(500).send(error.toString());
+      } else {
+        res.status(200).send("Verification Email Sent");
+      }
+    });
+  })
+);
+
+verifyRouter.get(
+  "/:token",
+  catchAsync(async (req, res) => {
+    const user = await User.findOne({ verificationToken: req.params.token });
+    if (!user) {
+      res.status(404).send("Invalid Token");
     }
-  });
-});
 
-verifyRouter.get("/:token", async (req, res) => {
-  const user = await User.findOne({ verificationToken: req.params.token });
-  if (!user) {
-    res.status(404).send("Invalid Token");
-  }
+    user.isVerified = true;
+    user.verficationToken = undefined; //deleting the token so that it becomes invalid
 
-  user.isVerified = true;
-  user.verficationToken = undefined; //deleting the token so that it becomes invalid
+    await user.save();
 
-  await user.save();
-
-  res.status(200).send("Email verified successfully");
-});
+    res.status(200).send("Email verified successfully");
+  })
+);
 
 module.exports = verifyRouter;
