@@ -1,5 +1,6 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
+const xss = require("xss-clean");
 
 const roomRouter = require("./routes/roomRoutes");
 const verifyRouter = require("./routes/verifyRoutes");
@@ -12,6 +13,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+app.use(xss());
 app.use(express.json());
 app.use("/verify", verifyRouter);
 app.use("/rooms", roomRouter);
