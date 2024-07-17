@@ -5,6 +5,7 @@ const xss = require("xss-clean");
 const roomRouter = require("./routes/roomRoutes");
 const verifyRouter = require("./routes/verifyRoutes");
 const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 const limiter = rateLimit({
@@ -18,8 +19,10 @@ app.use(express.json());
 app.use("/verify", verifyRouter);
 app.use("/rooms", roomRouter);
 
-app.all("*", (res, req, next) => {
+app.all("*", (req, res, next) => {
   next(new AppError(`Invalid url: ${req.url}`));
 });
+
+app.use(globalErrorHandler);
 
 module.exports = app;
