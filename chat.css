@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.big-container {
+  background-color: dimgrey;
+  display: flex;
+  height: 94vh;
+  width: 94vw;
+  justify-content: be;
+}
+
+.room-list {
+  background-color: rgb(238, 178, 48);
+  width: 25%;
+}
+.online-user-list {
+  background-color: antiquewhite;
+  width: 15%;
+}
+
+.chat-container {
+  background-color: aqua;
+  width: 60%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.message-container {
+  background-color: blueviolet;
+}
+
+.messages {
+  background-color: brown;
+}
