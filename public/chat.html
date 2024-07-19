@@ -10,10 +10,14 @@
     <div class="big-container">
       <div class="room-list">rooms</div>
       <div class="chat-container">
-        <div class="message-container">
-          <input type="text" value="what" class="message-input" />
+        <form class="message-container">
+          <input
+            type="text"
+            placeholder="click here to type"
+            class="message-input"
+          />
           <button class="btn-send">send</button>
-        </div>
+        </form>
         <div class="messages">
           <ul>
             message1
@@ -25,5 +29,7 @@
       </div>
       <div class="online-user-list">Users Online</div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
