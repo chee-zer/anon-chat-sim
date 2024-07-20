@@ -471,19 +471,19 @@
                                                
          </pre>
         </div>
-        <button class="btn" id="enterButton"><a href="/verify">Enter</a></button>
+        <form class="input-email" id="verifyForm">
+            <input
+              type="email"
+              placeholder="type your college id here"
+              id="inputId"
+              name="email"
+              required
+            />
+            <button type="submit">verify</button>
+          </form>
    </div class="center">
-   <script>
-    const btnEnter = document.getElementById('enterButton')
-    const asciiText = document.querySelectorAll('pre')
-    const asciiContainer = document.querySelector('.ascii-container')
-    let displayIndex = Math.floor(Math.random() * asciiText.length)
-    asciiText[displayIndex].classList.toggle('hidden')
-    asciiContainer.addEventListener('click', () => {
-        asciiText[displayIndex].classList.toggle('hidden')
-        displayIndex = (displayIndex + 1) % asciiText.length;
-        asciiText[displayIndex].classList.toggle('hidden')
-    })
+   <script src="verify.js">
+    
    </script>
   </body>
 </html>

@@ -21,7 +21,7 @@ app.use(limiter);
 app.use(xss());
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "chat.html"));
+  res.sendFile(path.join(__dirname, "public", "frontpage.html"));
 });
 app.use("/verify", verifyRouter);
 app.use("/rooms", roomRouter);

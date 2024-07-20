@@ -1,5 +1,6 @@
 const express = require("express");
 const crypto = require("crypto");
+const path = require("path");
 const nodemailer = require("nodemailer");
 const User = require("../models/User"); //the model has to start with a capital letter(?) FORGORFORGOR REPLACE ASAP
 
@@ -16,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 const catchAsync = (fn) => {
   return (req, res, next) => {
-    fn(res, req, next).catch(next);
+    fn(req, res, next).catch(next);
   };
 };
 
@@ -69,5 +70,9 @@ verifyRouter.get(
     res.status(200).send("Email verified successfully");
   })
 );
+
+verifyRouter.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "verify.html"));
+});
 
 module.exports = verifyRouter;
