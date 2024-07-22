@@ -71,8 +71,11 @@ verifyRouter.get(
   })
 );
 
-verifyRouter.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "verify.html"));
-});
+verifyRouter.get(
+  "/",
+  catchAsync(async (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "public", "verify.html"));
+  })
+);
 
 module.exports = verifyRouter;
