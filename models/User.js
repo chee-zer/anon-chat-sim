@@ -23,6 +23,7 @@ const UserSchema = mongoose.Schema({
   userCode: {
     type: String,
     unique: true,
+    sparse: true,
   },
   isOnline: {
     type: Boolean,
