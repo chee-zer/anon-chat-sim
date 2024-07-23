@@ -14,7 +14,7 @@ asciiContainer.addEventListener("click", () => {
 document.getElementById("verifyForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("inputId").value;
+  let email = document.getElementById("inputId").value;
 
   fetch("/verify", {
     method: "POST",

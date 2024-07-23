@@ -1,12 +1,13 @@
 const Room = require("../models/Room");
+const AppError = require("../utils/appError");
+const User = require("./../models/User");
+const { path } = require("path");
 
 const catchAsync = (fn) => {
   return (req, res, next) => {
     fn(res, req, next).catch(next);
   };
 };
-
-
 
 exports.createRoom = catchAsync(async (req, res) => {
   const { name, userID } = req.body;
@@ -20,10 +21,11 @@ exports.createRoom = catchAsync(async (req, res) => {
   res.status(200).send(room);
 });
 
-roomRouter.get(
-  "/rooms",
-  catchAsync(async (req, res) => {
-    const rooms = await Room.find();
-    res.status(200).send(rooms);
-  })
-);
+exports.validateUserCode = catchAsync(async (req, res, next) => {
+  const userCode = await User.findOne({ userCode: req.query.u });
+  if (!userCode) return next(new AppError("Invalid or expired UserCode"));
+});
+
+exports.showRooms = catchAsync(async (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, "..", "public", "rooms.html"));
+});
