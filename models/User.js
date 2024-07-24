@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
   email: {
     type: String,
-    required: true,
+
     unique: true,
     lowercase: true,
     trim: true,
@@ -24,6 +24,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     unique: true,
     sparse: true,
+    default: null,
   },
   isOnline: {
     type: Boolean,
@@ -35,10 +36,13 @@ const UserSchema = mongoose.Schema({
     unique: true,
     sparse: true,
   },
-  avatar: {
-    type: String,
-    default: "default_avatar.png",
-  },
+});
+
+UserSchema.pre("save", function (next) {
+  if (this.userCode == null) {
+    this.userCode = undefined;
+  }
+  next();
 });
 
 module.exports = mongoose.model("User", UserSchema);
