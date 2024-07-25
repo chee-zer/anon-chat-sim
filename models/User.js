@@ -40,6 +40,9 @@ UserSchema.pre("save", async function (next) {
   if (this.userCode == null) {
     this.userCode = undefined;
   }
+  if (this.email == null) {
+    this.email = undefined;
+  }
   if (this.isNew && this.email) {
     try {
       const existingUser = await this.constructor.findOne({
