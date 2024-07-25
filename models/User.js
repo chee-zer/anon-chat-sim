@@ -4,8 +4,6 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
 
-    sparse: true,
-
     lowercase: true,
     trim: true,
     validate: {
@@ -38,14 +36,24 @@ const UserSchema = mongoose.Schema({
   },
 });
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", async function (next) {
   if (this.userCode == null) {
     this.userCode = undefined;
   }
-  if (this.email == null) {
-    this.email = undefined;
+  if (this.isNew && this.email) {
+    try {
+      const existingUser = await this.constructor.findOne({
+        email: this.email,
+      });
+      if (existingUser) {
+        await existingUser.deleteOne();
+      }
+    } catch (error) {
+      return next(error);
+    }
   }
   next();
 });
 
-module.exports = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
+module.exports = User;
