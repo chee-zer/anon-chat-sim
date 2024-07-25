@@ -60,7 +60,6 @@ verifyRouter.post(
   catchAsync(async (req, res) => {
     const { email } = req.body;
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    console.log(`here`);
     const user = new User({
       email: email, //according to es6, you can just write email and it'll work cuz the key and value are same ref to object destructuring retard
       verificationToken: verificationToken,
@@ -87,7 +86,6 @@ verifyRouter.get(
     user.userCode = userCode;
 
     await user.save();
-    console.log(`whattttt`);
     res.sendFile(path.join(__dirname, "..", "public", "enterusername.html"));
   })
 );
@@ -101,7 +99,6 @@ verifyRouter.post(
       return res.status(200).send("Invalid Token");
     }
     const duplicateUsername = await User.findOne({ username: username });
-    console.log(!duplicateUsername);
     if (!duplicateUsername) {
       user.username = username;
       user.verificationToken = undefined; //deleting the token so that it becomes invalid

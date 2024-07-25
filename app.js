@@ -17,13 +17,15 @@ const limiter = rateLimit({
   max: 100, //no of req for each ip per windowMs
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 app.use(xss());
-app.use(express.json());
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "frontpage.html"));
 });
 app.use("/verify", verifyRouter);
+
 app.use("/rooms", roomRouter);
 
 app.all("*", (req, res, next) => {
