@@ -4,7 +4,8 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
 
-    unique: true,
+    sparse: true,
+
     lowercase: true,
     trim: true,
     validate: {
@@ -18,7 +19,6 @@ const UserSchema = mongoose.Schema({
   },
   verificationToken: {
     type: String,
-    required: true,
   },
   userCode: {
     type: String,
@@ -41,6 +41,9 @@ const UserSchema = mongoose.Schema({
 UserSchema.pre("save", function (next) {
   if (this.userCode == null) {
     this.userCode = undefined;
+  }
+  if (this.email == null) {
+    this.email = undefined;
   }
   next();
 });

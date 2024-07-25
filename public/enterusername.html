@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://localhost:3000/style.css">
   </head>
   <body>
    <div class="center">
@@ -471,20 +471,14 @@
                                                
          </pre>
         </div>
-        <form class="input-email" id="verifyForm">
-            <input
-              type="email"
-              placeholder="type your college id here"
-              id="inputId"
-              name="email"
-              required
-            />
-            <button type="submit">verify</button>
-          </form>
         
+        <form id="usernameForm">
+        <input type="text" id="username" name="username" placeholder="enter username" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="statusMessage"></p>
    </div class="center">
-   <script src="verify.js">
-    
+   <script src="http://localhost:3000/enter.js">
    </script>
   </body>
 </html>

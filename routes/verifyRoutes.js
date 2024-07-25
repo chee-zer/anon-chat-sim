@@ -69,7 +69,7 @@ verifyRouter.post(
     await user.save();
 
     await sendMail(email, verificationToken);
-    res.status(200).send("email verified successfully");
+    res.status(200).send("email sent");
   })
 );
 
@@ -78,17 +78,43 @@ verifyRouter.get(
   catchAsync(async (req, res) => {
     const user = await User.findOne({ verificationToken: req.params.token });
     if (!user) {
-      res.status(404).send("Invalid Token");
+      return res.status(404).send("Invalid Token");
     }
 
     user.isVerified = true;
-    user.verficationToken = undefined; //deleting the token so that it becomes invalid
     user.email = undefined;
+    const userCode = crypto.randomBytes(16).toString("hex");
+    user.userCode = userCode;
 
     await user.save();
-    window.close;
+    console.log(`whattttt`);
+    res.sendFile(path.join(__dirname, "..", "public", "enterusername.html"));
+  })
+);
 
-    res.status(200).send("Email verified successfully");
+verifyRouter.post(
+  "/:token",
+  catchAsync(async (req, res, next) => {
+    const { username } = req.body;
+    const user = await User.findOne({ verificationToken: req.params.token });
+    if (!user) {
+      return res.status(200).send("Invalid Token");
+    }
+    const duplicateUsername = await User.findOne({ username: username });
+    console.log(!duplicateUsername);
+    if (!duplicateUsername) {
+      user.username = username;
+      user.verificationToken = undefined; //deleting the token so that it becomes invalid
+      const userCode = user.userCode;
+      await user.save();
+      return res
+        .status(200)
+        .json({ message: "Username set successfully", userCode });
+    } else {
+      return res
+        .status(400)
+        .json({ message: "Username already taken. Please choose another" });
+    }
   })
 );
 
