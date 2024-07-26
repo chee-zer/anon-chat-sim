@@ -1,0 +1,48 @@
+const mongoose = require("mongoose");
+const dotenv = require("dotenv").config({ path: "./config.env" });
+
+const Room = require("./../models/Room");
+
+mongoose.connect(`${process.env.MONGODB_URI}`).then((con) => {
+  console.log(`DB connection successful!!`);
+});
+
+const fixedRooms = [
+  { name: "math", description: "place for nerds", inviteCode: "math" },
+  {
+    name: "programming",
+    description: "another place for nerds",
+    inviteCode: "programming",
+  },
+  {
+    name: "shitposting",
+    description: "cringy folks who think they got upgraded humour",
+    inviteCode: "shitposting",
+  },
+  {
+    name: "🔥pro bubg valocant espot gaymerx unitez😈",
+    description: "super cool gamers cool savage",
+    inviteCode: "gaymers",
+  },
+];
+
+async function seedRooms() {
+  try {
+    await Promise.all(
+      fixedRooms.map((room) =>
+        Room.findOneAndUpdate({ name: room.name }, room, {
+          upsert: true,
+          setDefaultsOnInsert: true,
+        })
+      )
+    );
+    console.log(`Seeded database`);
+  } catch (error) {
+    console.error("Error seeding database:", error);
+  } finally {
+    await mongoose.connection.close();
+    process.exit(0);
+  }
+}
+
+seedRooms();
