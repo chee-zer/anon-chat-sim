@@ -28,6 +28,7 @@
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
     "socket.io": "^4.7.5",
+    "textfit": "^2.4.0",
     "xoauth2": "^1.2.0",
     "xss-clean": "^0.1.4"
   },
