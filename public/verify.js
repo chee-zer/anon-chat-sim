@@ -11,8 +11,6 @@ asciiContainer.addEventListener("click", () => {
   asciiText[displayIndex].classList.toggle("hidden");
 });
 
-textFit(querySelectorAll("pre"));
-
 document.getElementById("verifyForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
