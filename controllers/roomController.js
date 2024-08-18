@@ -22,7 +22,9 @@ exports.createRoom = catchAsync(async (req, res) => {
 });
 
 exports.validateUserCode = catchAsync(async (req, res, next) => {
-  const userCode = await User.findOne({ userCode: req.query.u });
+  const userCode = await User.findOne({
+    userCode: await bcrypt.hash(req.query.u, 10),
+  });
   if (!userCode) return next(new AppError("Invalid or expired UserCode"));
   next();
 });

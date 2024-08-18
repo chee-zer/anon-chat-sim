@@ -1,5 +1,6 @@
 const express = require("express");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 const path = require("path");
 const { google } = require("googleapis");
 const nodemailer = require("nodemailer");
@@ -83,7 +84,7 @@ verifyRouter.get(
     user.isVerified = true;
     user.email = undefined;
     const userCode = crypto.randomBytes(16).toString("hex");
-    user.userCode = userCode;
+    user.userCode = await bcrypt.hash(userCode, 10);
 
     await user.save();
     res.sendFile(path.join(__dirname, "..", "public", "enterusername.html"));
